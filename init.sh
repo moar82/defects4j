@@ -56,8 +56,21 @@ cd $DIR_LIB_GEN && [ ! -f $EVOSUITE_JAR ] \
 cd $DIR_LIB_RT  && [ ! -f $EVOSUITE_RT_JAR ] \
                 && wget -nv $EVOSUITE_URL/$EVOSUITE_RT_JAR
 # Set symlinks for the supported version of EvoSuite
+
 ln -sf $DIR_LIB_GEN/$EVOSUITE_JAR $DIR_LIB_GEN/evosuite-current.jar
-ln -sf $DIR_LIB_RT/$EVOSUITE_RT_JAR $DIR_LIB_RT/evosuite-rt.jar
+EVOCURRENTJAR=$DIR_LIB_GEN/evosuite-current.jar
+
+if [ ! -L ${EVOCURRENTJAR} ]; then
+	cp  -f $DIR_LIB_GEN/$EVOSUITE_JAR $DIR_LIB_GEN/evosuite-current.jar
+fi
+
+
+	
+ln -sf $DIR_LIB_RT/$EVOSUITE_RT_JAR $DIR_LIB_RT/evosuite-rt.jar;
+EVORT=$DIR_LIB_RT/evosuite-rt.jar
+if [ ! -L ${EVORT} ]; then
+	cp -f $DIR_LIB_RT/$EVOSUITE_RT_JAR $DIR_LIB_RT/evosuite-rt.jar
+fi
 
 #
 # Download Randoop
@@ -70,7 +83,12 @@ RANDOOP_JAR="randoop-${RANDOOP_VERSION}.jar"
 cd $DIR_LIB_GEN && [ ! -f $RANDOOP_JAR ] \
                 && wget -nv $RANDOOP_URL/$RANDOOP_JAR
 # Set symlink for the supported version of Randoop
-ln -sf $DIR_LIB_GEN/$RANDOOP_JAR $DIR_LIB_GEN/randoop-current.jar
+ln -sf $DIR_LIB_GEN/$RANDOOP_JAR $DIR_LIB_GEN/randoop-current.jar;
+RANDOOPCUR=$DIR_LIB_GEN/randoop-current.jar
+if [ ! -L ${RANDOOPCUR} ]; then
+	cp -f $DIR_LIB_GEN/$RANDOOP_JAR $DIR_LIB_GEN/randoop-current.jar
+fi
+
 
 echo
 echo "Defects4J successfully initialized."
